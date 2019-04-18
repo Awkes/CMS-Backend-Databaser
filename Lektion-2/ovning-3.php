@@ -252,25 +252,18 @@
         switch (strtolower($day)) {
           case 'måndag':
             return 1;
-            break;
           case 'tisdag':
             return 2;
-            break;
           case 'onsdag':
             return 3;
-            break;
           case 'torsdag':
             return 4;
-            break;
           case 'fredag':
             return 5;
-            break;
           case 'lördag':
             return 6;
-            break;
           case 'söndag':
             return 7;
-            break;
           default:
             return null;
         }
