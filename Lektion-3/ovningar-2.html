@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulär</title>
+</head>
+<body>
+  <h1>Formulär</h1>
+  <form action="form-2.php" method="POST" name="login">
+    <p>
+      <label for="username">Användarnamn:</label>
+      <input type="text" name="username" id="username">
+    </p>
+    <p>
+      <label for="password">Lösenord:</label>
+      <input type="password" name="password" id="password">
+
+    </p>
+    <p>
+      <button>Skicka</button>
+    </p>
+  </form>
+  <p id="message"></p>
+
+  <script>
+    const formElement = document.querySelector('form');
+    const message = document.querySelector('#message');
+
+    // Login
+    formElement.addEventListener('submit', e => {
+      e.preventDefault();
+      const formData = new FormData(formElement);
+
+      fetch('form-2.php',{
+        method: 'POST',
+        body: formData
+      })
+        .then(response => {
+          if (!response.ok) throw Error(response.statusText);
+          return response.json();
+        })
+        .then(data => {
+          message.style = 'color: #0F0';
+          message.innerHTML = `
+            Grattis, du är inloggad!<br>
+            <button id="messages">Hämta meddelanden</button>
+          `;
+          formElement.style = 'display: none';
+        })
+        .catch(err => {
+          message.style = 'color: #F00';
+          message.innerText = 'Felaktigt användarnamn eller lösenord!';
+        });
+    });
+
+    // Hämta meddelanden
+    message.addEventListener('click', e => { 
+      if (e.target.id === 'messages') {
+        fetch('form-2.php?messages=true')
+          .then(response => {
+            if (!response.ok) throw Error(response.statusText);
+            return response.json();
+          })
+          .then(data => {
+            let ul = document.createElement('ul');
+            ul.style = 'color: #000;';
+            data.forEach(msg => {
+              let li = document.createElement('li');
+              li.appendChild(document.createTextNode(msg));
+              ul.appendChild(li);
+            });
+            message.appendChild(ul);
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
+    });
+
+
+  </script>
+</body>
+</html>
