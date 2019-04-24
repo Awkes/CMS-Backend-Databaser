@@ -57,7 +57,9 @@
     // Hämta meddelanden
     message.addEventListener('click', e => { 
       if (e.target.id === 'messages') {
-        fetch('form-2.php?messages=true')
+        fetch('form-2.php?messages=true',{
+          method: 'GET'
+        })
           .then(response => {
             if (!response.ok) throw Error(response.statusText);
             return response.json();

@@ -9,7 +9,7 @@
     ];
     echo json_encode($user_data);
   }
-  elseif (messages) {
+  elseif ($_GET['messages']) {
     $msgs = ['Du är en gädda!','Min cykel är grön!','Ostbollarna är slut!','En fisk gick sönder igår!'];
     echo json_encode($msgs);
   }
