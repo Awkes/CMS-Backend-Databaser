@@ -1,0 +1,80 @@
+Hur många städer finns det i distriktet "Southern Tagalog"?
+	
+	SELECT COUNT(*) FROM city WHERE District='Southern Tagalog'
+	31
+
+Vilka städer har den minsta och den största populationen bland alla
+städer? (använd två queries, detta behöver inte göras i en och 
+samma SQL-statement)
+
+	SELECT * FROM city ORDER BY Population ASC
+	SELECT * FROM city ORDER BY Population DESC
+	Minst:	Adamstown (42)
+	Störst: Mumbai (Bombay) (10500000)
+
+Vilken stad har närmast över 275 000 invånare? D.v.s den första
+staden som har över 275 000 invånare. Använd LIMIT för att 
+begränsa ditt resultat.
+
+	SELECT Name,Population FROM city WHERE Population > 275000 ORDER BY Population LIMIT 1
+	Nanded (Nander) 275083
+
+Hur många städer har namn som börjar på "G"? Använd SQL.
+
+	SELECT COUNT(*) FROM city WHERE Name LIKE 'G%'
+	140
+
+Finns staden "Berlin" i databasen? Använd SQL för att ta reda på detta.
+
+	SELECT * FROM city WHERE Name='Berlin'
+	Nej
+
+Hur många olika distrikt finns det?
+
+	SELECT COUNT(DISTINCT Name) FROM city
+	3998	
+
+Hur många olika landskoder finns det?
+
+	SELECT COUNT(DISTINCT CountryCode) FROM city
+	232
+	
+Vilken stad har id=200?
+
+	SELECT Name,ID FROM city WHERE ID=200
+	Tarija
+
+Vad har följande länder för landskoder i databasen? 
+Sverige, Norge, Danmark, Finland, Island. 
+(tips: Kan du någon stad i Sverige, Norge m.m.? 
+Flera lösningar är möjliga.)
+
+	SELECT * FROM city WHERE CountryCode LIKE 'S%'
+	SELECT * FROM city WHERE CountryCode LIKE 'N%'
+	SELECT * FROM city WHERE CountryCode LIKE 'D%'
+	SELECT * FROM city WHERE CountryCode LIKE 'IS%'
+	SELECT * FROM city WHERE CountryCode LIKE 'F%'
+	SWE, ISL, NOR, DNK, FIN
+
+Hur många städer finns det i Norden?
+
+	SELECT COUNT(*) FROM city WHERE CountryCode='SWE' OR CountryCode='NOR' OR CountryCode='DNK' OR CountryCode='FIN' OR CountryCode='ISL'
+	33
+
+Hur många städer finns det i Norden som har mer än 500 000 invånare?
+
+	SELECT COUNT(*) FROM city WHERE (CountryCode='SWE' OR CountryCode='NOR' OR CountryCode='DNK' OR CountryCode='FIN' OR CountryCode='ISL') AND Population >= 500000
+	3
+
+Vilka städer finns i Sverige och Norge som har mellan 200 000 
+och 500 000 invånare, samt i Danmark som har mer än 450 000 
+invånare?
+
+	SELECT Name,Population FROM city WHERE ((CountryCode='SWE' OR CountryCode='NOR') AND (Population BETWEEN 200000 AND 500000)) OR (CountryCode='DNK' AND Population >= 450000)
+	København		495699
+	Bergen			230948
+	Gothenburg [Göteborg]	466990
+	Malmö			259579
+
+
+	
