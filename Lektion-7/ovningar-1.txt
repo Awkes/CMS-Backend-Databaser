@@ -1,0 +1,73 @@
+SQL 2
+Övningar
+Svaren till alla frågor ska löses genom att skriva SQL-queries. Du kan både använda SQL direkt i phpMyAdmin . Först ska du skapa en ny databas. Du kan kalla den TheStore. Skapa en ny tabell i din databas som du döper till Customers. Tabellen ska ha följande 8 st fält:
+
+name	type	length	index	A_I
+ID	  INT	 	 PRIMARY	x
+Name	  VARCHAR	  100		
+Adress	  VARCHAR	  100		
+City	  VARCHAR	  100		
+PostalCode	  VARCHAR	  100		
+Country	  VARCHAR	  100		
+ContactName	  VARCHAR	  100		
+Investments	  INT	 		
+
+Mata in följande personer i databasen med SQL:
+Name	Adress	City	PostalCode	Country	ContactName	Investments
+Maria Anders	Obere Str. 57	Berlin	12209	Germany	Alfred	345000
+Ana Trujillo	Avda. de la Constitución 2222	México D.F.	05021	Mexico	Miguel	180500
+Antonio Moreno	Mataderos 2312	México D.F.	05023	Mexico	Francisco	96500
+Thomas Hardy	120 Hanover Sq.	London	WA1 1DP	UK	Peter	225000
+Christina Berglund	Berguvsvägen 8	Luleå	S-958 22	Sweden	Oskar	134500
+
+  INSERT INTO customers (Name, Adress, City, PostalCode, Country, ContactName, Investments) VALUES ('Maria Anders', 'Obere Str. 57', 'Berlin', '12209', 'Germany', 'Alfred', 345000);
+  INSERT INTO customers (Name, Adress, City, PostalCode, Country, ContactName, Investments) VALUES ('Ana Trujilo', 'Avda. de la Constituciön 2222', 'Mèxico D.F.', '05021', 'Mexico', 'Miguel', 180500);
+  INSERT INTO customers (Name, Adress, City, PostalCode, Country, ContactName, Investments) VALUES ('Antonio Moreno', 'Mataderos 2312', 'Mèxico D.F.', '05021', 'Mexico', 'Fransico', 96500);
+  INSERT INTO customers (Name, Adress, City, PostalCode, Country, ContactName, Investments) VALUES ('Thomas Hardy', '120 Hanover Sq.', 'London', 'WA1 1DP', 'UK', 'Peter', 225000);
+  INSERT INTO customers (Name, Adress, City, PostalCode, Country, ContactName, Investments) VALUES ('Christina Berglund', 'Berguvsvägen 8', 'Luleå', 'S-958 22', 'Sweden', 'Oskar', 134500);
+
+Ändra så att alla Customers i Mexico får en ny kontaktperson som heter "Juan".
+
+  UPDATE customers SET ContactName='Juan' WHERE Country='Mexico';
+
+Ta bort alla Customers som har Investments lägre än 100000.
+
+  DELETE FROM customers WHERE Investments < 100000
+
+Visa alla Customers som inte finns i Mexico. (med NOT)
+
+  SELECT * FROM customers WHERE NOT Country='Mexico';
+
+Visa alla Customers som har ett namn som börjar på A.
+
+  SELECT * FROM customers WHERE Name LIKE 'A%';
+
+Visa alla Customers som finns i Germany, UK eller Sweden, men som inte finns i en stad som börjar på L.
+
+  SELECT * FROM customers WHERE Country IN ('Germany', 'UK', 'Sweden') AND NOT City LIKE 'L%';
+
+Visa vilken Customer som har lägst Investments. (med ORDER BY & LIMIT)
+
+  SELECT * FROM customers ORDER BY Investments LIMIT 3;
+
+Visa det högsta värdet på Investments, med rubriken "LargestInvestment". (med MAX & AS)
+
+  SELECT MAX(Investments) AS LargestInvestment FROM customers;
+
+Vad är det genomsnittliga värdet på Investments?
+
+  SELECT AVG(Investments) FROM customers;
+  
+  AVG(Investments)
+  221250.0000
+
+Vad är det totala värdet på alla Investments?
+
+  SELECT SUM(Investments) FROM customers;
+
+  SUM(Investments)
+  885000
+
+Visa namnet, samt en fullständig adress för alla Customers med Address, PostalCode och City i ett och samma fält, med rubriken Address.
+
+  SELECT Name, CONCAT(Adress,' ',PostalCode,' ',City) AS Address FROM customers;

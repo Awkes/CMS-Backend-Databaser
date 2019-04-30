@@ -1,0 +1,91 @@
+SQL och JOINS
+Övningar
+
+Börja med att ladda hem och sedan importera products.sql till din database TheStore. 
+Detta gör du genom att gå till din databas och välja Import sedan välja filen products.sql.
+När du är klar trycker du på Go. Samma som i tidigare övning med städerna.
+
+Hur mycket kostar tillverkare "A":s PC-datorer? Kombinera Product och PC med en INNER JOIN för att
+slå ihop tabellerna, och visa modelnumret och priset.
+
+  SELECT product.maker, pc.model, pc.price FROM product JOIN pc ON product.model = pc.model AND product.maker='A';
+
+  maker model price
+  A     1001  799
+  A     1002  2499
+  A     1003  1999
+
+Visa hur mycket RAM varje laptop har och vem som är tillverkare för varje laptop.
+
+  SELECT product.maker, laptop.model, laptop.ram FROM product JOIN laptop ON product.model = laptop.model;
+
+  maker   model   ram
+  B       2001    64
+  B       2002    96
+  B       2003    64
+  A       2004    32
+  A       2005    64
+  A       2006    96
+  D       2007    128
+  C       2008    64
+  C       2009    256
+  E       2010    64
+
+Visa vilka tillverkare som tillverkar laserskrivare.
+
+  SELECT product.maker, printer.type FROM product JOIN printer ON product.model = printer.model AND printer.type='laser';
+
+  maker type
+  C     laser
+  C     laser
+  H     laser
+
+Visa alla tillverkare som gör en laptop med 64 eller 96 GB RAM.
+
+  SELECT product.maker, laptop.ram FROM product JOIN laptop ON product.model = laptop.model AND laptop.ram IN (64, 96);
+
+  maker ram
+  B     64
+  B     96
+  B     64
+  A     64
+  A     96
+  C     64
+  E     64
+
+Visa modellnummer och pris för alla PC, Laptop och Printer i samma resultattabell med UNION.
+
+  SELECT model, price FROM pc 
+  UNION 
+  SELECT model, price FROM laptop 
+  UNION 
+  SELECT model, price FROM printer;
+
+  model price
+  1001  799
+  1002  2499
+  1003  1999
+  1004  999
+  ...   ...   fler rader tillkommer
+
+Visa alla PC-datorer och laptopar som har minst 128 MB RAM. Sortera så att den billigaste visas först.
+
+  SELECT * FROM pc 
+  WHERE ram >= 128
+  UNION
+  SELECT * FROM laptop
+  WHERE ram >= 128
+  ORDER BY price;
+
+  
+model speed ram hd rd     price
+1011  1100  128 60 16xDVD 1299
+1005  1000  128 20 12xDVD 1499
+1009  1200  128 80 16xDVD 1699
+1003  866   128 20 8xDVD  1999
+1006  1300  256 40 16xDVD 2119
+1007  1400  128 80 12xDVD 2299
+1013  733   256 60 12xDVD 2499
+1002  1500  128 60 12xDVD 2499
+2009  750   256 20 15,1   2599  
+2007  850   128 20 15,0   3099
