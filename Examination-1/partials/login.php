@@ -13,6 +13,7 @@
         $_SESSION['loggedin'] = true;
         $_SESSION['username'] = $data['username'];
         $_SESSION['userID'] = $data['userID'];
+        header('Location: ./'); // Byter location för att förhindra återsändning av data
       }
       // Annars skriv ut felmeddelande 
       else {
