@@ -26,6 +26,8 @@
   <footer class="smallfont">
     <hr>
     <p>Copyright &copy; Andreas Åkerlöf 2019</p>
-  </footer>  
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>

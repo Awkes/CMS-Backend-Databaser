@@ -1,34 +1,38 @@
 <?php 
   class JournalView {
     public static function render() {
-      // Om vi är inloggade, skriv ut journalsidan
+      // Om vi är inloggade, tillåt följande
       if (isset($_SESSION['loggedin'])) { 
         global $pdo;
 
+        // Kontrollera om användaren vill lägga till/ta bort inlägg
         if (isset($_GET['action'])) {
           // Lägg till nytt inlägg
           if ($_GET['action'] == 'newentry') {
-            
+            $statement = $pdo->prepare('INSERT INTO entries (title, content, createdAt, userID) VALUES (?, ?, NOW(), ?)');
+            $statement->execute([$_POST['title'], $_POST['content'], $_SESSION['userID']]);
+            header('Location: ./'); // Byter location för att förhindra återsändning av data
           }
           // Ta bort inlägg
           elseif ($_GET['action'] == 'delentry' && isset($_GET['id'])) {
-
+            $statement = $pdo->prepare('DELETE FROM entries WHERE entryID=?');
+            $statement->execute([$_GET['id']]);
           }
         }
 
         echo '<h2>Nytt inlägg</h2>';
         echo '<form id="newentry" action="?action=newentry" method="POST">';
         echo '<label for="title">Titel:</label>';
-        echo '<input type="text" id="title" name="title">';
+        echo '<input type="text" id="title" name="title" maxlength="100">';
         echo '<label for="content">Innehåll:</label>';
-        echo '<textarea id="content" name="content"></textarea>';
+        echo '<textarea id="content" name="content" maxlength="1000"></textarea>';
         echo '<button type="submit">Spara inlägg</button>';
         echo '</form>';
 
         echo '<h2>Inlägg</h2>';
 
         // Hämta inlägg
-        $statement = $pdo->prepare('SELECT * FROM entries WHERE userID=? ORDER BY createdAt');
+        $statement = $pdo->prepare('SELECT * FROM entries WHERE userID=? ORDER BY createdAt DESC');
         $statement->execute([$_SESSION['userID']]);
         $data = $statement->fetchAll(PDO::FETCH_ASSOC);
 
@@ -45,7 +49,7 @@
             echo '<hr>';
             echo $entry['content'];
             echo '<hr>';
-            echo '<p class="right smallfont">[<a href="?action=delentry&id='.$entry['entryID'].'">Ta bort</a>]</p>';
+            echo '<p class="right smallfont">[<a href="?action=delentry&id='.$entry['entryID'].'" class="remove-entry">Ta bort</a>]</p>';
             echo '</div>';
           }
         }
@@ -53,7 +57,8 @@
       // Annars skriv ut välkomstmeddelande
       else {  
         echo '<h2>Välkommen till journalen!</h2>';
-        echo '<p>Du måste logga in för att använda den här sidan.</p>';
+        echo '<p>Du måste ha ett konto för att använda den sidan.</p>';
+        echo '<p>Logga in eller skapa en ny användare i sektionen ovanför.</p>';
       }
     }
   }
@@ -87,9 +92,9 @@
       else {
         echo '<form id="register" action="?page=register&action=register" method="POST">';
         echo '<label for="username">Användarnamn:</label>';
-        echo '<input type="text" id="username" name="username">';
+        echo '<input type="text" id="username" name="username" maxlength="20">';
         echo '<label for="password">Lösenord:</label>';
-        echo '<input type="password" id="password" name="password">';
+        echo '<input type="password" id="password" name="password" maxlength="20">';
         echo '<button type="submit">Registrera</button>';
         echo '</form>';
       }

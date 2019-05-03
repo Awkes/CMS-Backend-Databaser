@@ -28,10 +28,10 @@
   // Om vi inte är inloggade, visa inloggningsformulär
   if (!isset($_SESSION['loggedin'])) {
     echo '<form id="login" class="smallfont" action="?action=login" method="POST">';
-    echo '<label for="username">Användarnamn:</label>';
-    echo '<input type="text" id="username" name="username">';
-    echo '<label for="password">Lösenord:</label>';
-    echo '<input type="password" id="password" name="password">';
+    echo '<label for="uname">Användarnamn:</label>';
+    echo '<input type="text" id="uname" name="username" maxlength="20">';
+    echo '<label for="pword">Lösenord:</label>';
+    echo '<input type="password" id="pword" name="password" maxlength="20">';
     echo '<button type="submit">Logga in</button>';
     echo '<div>[ <a href="?page=register">Ny användare</a> ]</div>';
     echo '</form>';
