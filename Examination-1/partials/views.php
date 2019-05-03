@@ -57,7 +57,7 @@
       // Annars skriv ut välkomstmeddelande
       else {  
         echo '<h2>Välkommen till journalen!</h2>';
-        echo '<p>Du måste ha ett konto för att använda den sidan.</p>';
+        echo '<p>Du måste ha ett konto för att använda den här sidan.</p>';
         echo '<p>Logga in eller skapa en ny användare i sektionen ovanför.</p>';
       }
     }
