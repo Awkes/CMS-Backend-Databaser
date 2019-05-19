@@ -25,7 +25,7 @@ return function ($app) {
   })->add($auth);
 
   // Skapa en POST route som registrerar en ny användare.
-  $app->POST('/newuser', function ($request, $response) {
+  $app->POST('/user', function ($request, $response) {
     $data = $request->getParsedBody();
 
     if (isset($data['user']) && isset($data['pass'])) {

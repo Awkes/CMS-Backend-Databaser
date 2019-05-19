@@ -31,4 +31,23 @@ return function ($app) {
     return $response->withJson($entry->getEntries($user,$order,$limit));
   });
 
+  // Skapa en POST route som sparar ett nytt inlägg för en viss användare.
+  $app->post('/entry', function ($request, $response) {
+    $data = $request->getParsedBody();
+
+    if (isset($data['title']) && isset($data['content'])) {
+      $entry = new Entry($this->db);
+      return $response->withJson($entry->newEntry($_SESSION['userID'],$data['title'],$data['content']));
+    } 
+    else {
+      return $response->withStatus(400);
+    }
+  })->add($auth);
+
+  // Skapa en DELETE route som raderar ett inlägg.
+  $app->delete('/entry/{id}', function ($request, $response, $args) {
+    $entry = new Entry($this->db);
+    return $response->withJson($entry->delEntry($_SESSION['userID'],$args['id']));
+  })->add($auth);
+
 };
